@@ -10,13 +10,13 @@ from datetime import datetime
 def readCSV(filepath, choice):
     dateCols = ['Date']
     if choice == "amazon":
-        return pd.read_csv(filepath + "\AMZN.csv", parse_dates=dateCols)
+        return pd.read_csv(filepath + "\\AMZN.csv", parse_dates=dateCols)
     if choice == "apple":
-        return pd.read_csv(filepath + "\AAPL.csv", parse_dates=dateCols)
+        return pd.read_csv(filepath + "\\AAPL.csv", parse_dates=dateCols)
     if choice == "google":
-        return pd.read_csv(filepath + "\GOOGL.csv", parse_dates=dateCols)
+        return pd.read_csv(filepath + "\\GOOGL.csv", parse_dates=dateCols)
     else:
-        print("please choose one of the 3 files for the assignment.")
+        print("Please choose one of the 3 files for the assignment.")
         return readCSV(filepath, choice)
 
 
@@ -34,7 +34,7 @@ def chooseFrame(dataframe, year):
     if year == "2020":
         return pd.date_range('2020-1-1', '2020-10-22')
     else:
-        print("please select a year")
+        print("Please select a year (2015-2020)")
         chooseFrame(dataframe)
 
 
@@ -122,10 +122,10 @@ def plotRegression(X, Y):
 
 
 def main():
-    filepath = input("what is the filepath of the file you want to use?\n")
-    company = input("what company are you wanting to view?\n").lower
+    filepath = input("Where is the folder of the file you want to use?\n")
+    company = input("What company are you wanting to view?\n").lower
     data = readCSV(filepath, company)
-    year = input("what is the year you want to see?\n")
+    year = input("What is the year you want to see?\n")
     yearRange = chooseFrame(data, year)
     fixedFrame = data[data['Date'].isin(yearRange)]
     # minimumSeries = fixedFrame['Low']
@@ -141,7 +141,7 @@ def main():
 
 
 def test():
-    filepath = input("what is the filepath of the file you want to use?\n")
+    filepath = input("Where is the folder of the file you want to use?\n")
     years = ["2015", "2016", "2017", "2018", "2019", "2020"]
     companies = ["apple", "amazon", "google"]
     for company in companies:
