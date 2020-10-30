@@ -12,11 +12,11 @@ def readCSV(filepath):
     choice.lower()
     dateCols = ['Date']
     if choice == "amazon":
-        return pd.read_csv(filepath, parse_dates=dateCols)
+        return pd.read_csv(filepath + "\AMZN.csv", parse_dates=dateCols)
     if choice == "apple":
-        return pd.read_csv(filepath, parse_dates=dateCols)
+        return pd.read_csv(filepath + "\AAPL.csv", parse_dates=dateCols)
     if choice == "google":
-        return pd.read_csv(filepath, parse_dates=dateCols)
+        return pd.read_csv(filepath + "\GOOGL.csv", parse_dates=dateCols)
     else:
         print("please choose one of the 3 files for the assignment.")
         return readCSV(filepath)
@@ -90,16 +90,17 @@ def my_w1(X, Y):
 
 def my_prediction(w1, w0, X):
     result = []
-    for x in X:
+    for x in X.index:
         result.append(w1 * x + w0)
+    result = pd.Series(result, index=X.index)
     return result
 
 
 def abs_error(Y, Y_head):
     error = 0
-    for i in range(Y.idxmin(), Y.idxmax()):
+    for i in Y.index:
         error = error + math.fabs(Y[i] - Y_head[i])
-    return error / (Y.idxmax() - Y.idxmin())
+    return error / len(Y)
 
 
 def plotRegression(X, Y):
@@ -119,6 +120,7 @@ def plotRegression(X, Y):
     plot.plot(x_samples, y_samples, color='red')
     plot.show()
     y_head = my_prediction(w1, w0, X)
+    print("y_head=", y_head)
     absError = abs_error(Y, y_head)
     print("Absolute Mean Error", absError)
 
