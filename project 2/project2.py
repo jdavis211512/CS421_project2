@@ -41,7 +41,7 @@ def chooseFrame(dataframe):
 
 def plotthis(minimum,maximum,closing,date):
     plot.plot(date,minimum,color='blue')
-    plot.plot(date,maximum, color='red')
+    plot.plot(date,maximum,color='red')
     plot.plot(date,closing,color='black')
     plot.show()
     # plot.plot(date,)
