@@ -41,12 +41,19 @@ def chooseFrame(dataframe):
         chooseFrame(dataframe)
 
 
-def visualizeYear(minimum, maximum, closing, date):
+def visualizeYear(minimum, maximum, closing, date,means):
     plot.plot(date, minimum, color='blue')
     plot.plot(date, maximum, color='red')
     plot.plot(date, closing, color='black')
+    plot.plot(date,means,color='green')
     plot.show()
-    # plot.plot(date,)
+
+def getmeans(minimumSeries, maximumSeries):
+    meanSeries = []
+    for i in range (minimumSeries.size):
+        meanSeries.append((minimumSeries.iloc[i]+maximumSeries.iloc[i]) / 2)
+    meanSeries = pd.Series(meanSeries)
+    return (meanSeries)
 
 
 # Stuff for Feature 2 - Min, Max, Average Box plot
@@ -130,16 +137,16 @@ def main():
     data = readCSV(filepath)
     yearRange = chooseFrame(data)
     fixedFrame = data[data['Date'].isin(yearRange)]
-    # minimumSeries = fixedFrame['Low']
-    # maximumSeries = fixedFrame['High']
-    # dailySeries = fixedFrame['Close']
-    # dateSeries = fixedFrame['Date']
-    # meanSeries = getmeans()
-    # visualizeYear(minimumSeries, maximumSeries, dailySeries, dateSeries)
-    print("Feature 2")
-    plotBox(fixedFrame['Close'])
-    print("Feature 3")
-    plotRegression(fixedFrame['Open'], fixedFrame['Close'])
+    minimumSeries = fixedFrame['Low']
+    maximumSeries = fixedFrame['High']
+    dailySeries = fixedFrame['Close']
+    dateSeries = fixedFrame['Date']
+    meanSeries = getmeans(minimumSeries,maximumSeries)
+    visualizeYear(minimumSeries, maximumSeries, dailySeries, dateSeries,meanSeries)
+    # print("Feature 2")
+    # plotBox(fixedFrame['Close'])
+    # print("Feature 3")
+    # plotRegression(fixedFrame['Open'], fixedFrame['Close'])
 
 
 if __name__ == '__main__':
