@@ -1,0 +1,14 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../../../../../:\Users\Hunter\OneDrive - Ball State University\Classes\Fall 2020\CS 421\CS421_project2\project 2\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+/misc.xml
+/project 2.iml
+/vcs.xml
+/inspectionProfiles/Project_Default.xml
+/modules.xml
+/inspectionProfiles/profiles_settings.xml

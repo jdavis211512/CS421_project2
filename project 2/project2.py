@@ -48,9 +48,18 @@ def visualizeYear(minimum, maximum, closing, date):
     # plot.plot(date,)
 
 
-def getmeans():
-    return null
-
+# Stuff for Feature 2 - Min, Max, Average Box plot
+def plotBox(close):
+    minimum = close.min()
+    maximum = close.max()
+    average = close.mean()
+    print("Minimum", minimum)
+    print("Maximum", maximum)
+    print("Average", average)
+    plot.boxplot(close)
+    plot.xlabel("Close")
+    plot.ylabel("Close Price")
+    plot.show()
 
 # Stuff for Feature 3 - Regression Line
 def my_mean(m):
@@ -106,6 +115,9 @@ def main():
     # dateSeries = fixedFrame['Date']
     # meanSeries = getmeans()
     # visualizeYear(minimumSeries, maximumSeries, dailySeries, dateSeries)
+    print("Feature 2")
+    plotBox(fixedFrame['Close'])
+    print("Feature 3")
     plotRegression(fixedFrame['Open'], fixedFrame['Close'])
 
 
