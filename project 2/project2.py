@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plot
 import numpy
+import math
 from datetime import datetime
 
 
@@ -61,6 +62,7 @@ def plotBox(close):
     plot.ylabel("Close Price")
     plot.show()
 
+
 # Stuff for Feature 3 - Regression Line
 def my_mean(m):
     total = 0.0
@@ -86,6 +88,20 @@ def my_w1(X, Y):
     return num / den
 
 
+def my_prediction(w1, w0, X):
+    result = []
+    for x in X:
+        result.append(w1 * x + w0)
+    return result
+
+
+def abs_error(Y, Y_head):
+    error = 0
+    for i in range(Y.idxmin(), Y.idxmax()):
+        error = error + math.fabs(Y[i] - Y_head[i])
+    return error / (Y.idxmax() - Y.idxmin())
+
+
 def plotRegression(X, Y):
     plot.plot(X, Y, 'bo')
     plot.xlabel('Open Price')
@@ -102,6 +118,9 @@ def plotRegression(X, Y):
         y_samples.append(w0 + w1 * x)
     plot.plot(x_samples, y_samples, color='red')
     plot.show()
+    y_head = my_prediction(w1, w0, X)
+    absError = abs_error(Y, y_head)
+    print("Absolute Mean Error", absError)
 
 
 def main():
