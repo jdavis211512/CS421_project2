@@ -2,12 +2,11 @@ import pandas as pd
 import matplotlib.pyplot as plot
 import numpy
 import math
-from datetime import datetime
-
 
 # C:\Users\jdavi\PycharmProjects\CS421_project2\project 2
 # C:\Users\Hunter\OneDrive - Ball State University\Classes\Fall 2020\CS 421\CS421_project2\project 2\GOOGL.csv
-def readCSV(filepath, choice):
+def readCSV(filepath):
+    choice = input("What company are you wanting to view?\n")
     dateCols = ['Date']
     if choice == "amazon":
         return pd.read_csv(filepath + "\\AMZN.csv", parse_dates=dateCols)
@@ -17,7 +16,7 @@ def readCSV(filepath, choice):
         return pd.read_csv(filepath + "\\GOOGL.csv", parse_dates=dateCols)
     else:
         print("Please choose one of the 3 files for the assignment.")
-        return readCSV(filepath, choice)
+        return readCSV(filepath)
 
 
 def chooseFrame(dataframe, year):
@@ -130,8 +129,7 @@ def plotRegression(X, Y):
 
 def main():
     filepath = input("Where is the folder of the file you want to use?\n")
-    company = input("What company are you wanting to view?\n").lower
-    data = readCSV(filepath, company)
+    data = readCSV(filepath)
     year = input("What is the year you want to see?\n")
     yearRange = chooseFrame(data, year)
     fixedFrame = data[data['Date'].isin(yearRange)]
@@ -141,10 +139,10 @@ def main():
     dateSeries = fixedFrame['Date']
     meanSeries = getmeans(minimumSeries,maximumSeries)
     visualizeYear(minimumSeries, maximumSeries, dailySeries, dateSeries,meanSeries)
-    # print("Feature 2")
-    # plotBox(fixedFrame['Close'])
-    # print("Feature 3")
-    # plotRegression(fixedFrame['Open'], fixedFrame['Close'])
+    print("Feature 2")
+    plotBox(fixedFrame['Close'])
+    print("Feature 3")
+    plotRegression(fixedFrame['Open'], fixedFrame['Close'])
 
 
 def test():
@@ -152,7 +150,7 @@ def test():
     years = ["2015", "2016", "2017", "2018", "2019", "2020"]
     companies = ["apple", "amazon", "google"]
     for company in companies:
-        data = readCSV(filepath, company)
+        data = readCSV(filepath)
         for year in years:
             yearRange = chooseFrame(data, year)
             fixedFrame = data[data['Date'].isin(yearRange)]
@@ -163,7 +161,7 @@ def test():
             plotRegression(fixedFrame['Open'], fixedFrame['Close'])
 
 
-isTest = True
+isTest = False
 if __name__ == '__main__':
     if isTest:
         test()
