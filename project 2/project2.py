@@ -3,23 +3,25 @@ import matplotlib.pyplot as plot
 import numpy
 import math
 
+
 # C:\Users\jdavi\PycharmProjects\CS421_project2\project 2
 # C:\Users\Hunter\OneDrive - Ball State University\Classes\Fall 2020\CS 421\CS421_project2\project 2\GOOGL.csv
 def readCSV(filepath):
-    choice = input("What company are you wanting to view?\n")
+    choice = input("What company are you wanting to view? (Amazon, Apple, Google)\n").lower()
     dateCols = ['Date']
-    if choice == "amazon":
+    if choice == "amazon" or choice == "amzn":
         return pd.read_csv(filepath + "\\AMZN.csv", parse_dates=dateCols)
-    if choice == "apple":
+    if choice == "apple" or choice == "aapl":
         return pd.read_csv(filepath + "\\AAPL.csv", parse_dates=dateCols)
-    if choice == "google":
+    if choice == "google" or choice == "googl":
         return pd.read_csv(filepath + "\\GOOGL.csv", parse_dates=dateCols)
     else:
         print("Please choose one of the 3 files for the assignment.")
         return readCSV(filepath)
 
 
-def chooseFrame(dataframe, year):
+def chooseFrame(dataframe):
+    year = input("What is the year you want to see? (2015 - 2020)\n")
     if year == "2015":
         return pd.date_range('2015-10-23', '2015-12-31')
     if year == "2016":
@@ -37,17 +39,18 @@ def chooseFrame(dataframe, year):
         chooseFrame(dataframe)
 
 
-def visualizeYear(minimum, maximum, closing, date,means):
+def visualizeYear(minimum, maximum, closing, date, means):
     plot.plot(date, minimum, color='blue')
     plot.plot(date, maximum, color='red')
     plot.plot(date, closing, color='black')
-    plot.plot(date,means,color='green')
+    plot.plot(date, means, color='green')
     plot.show()
 
-def getmeans(minimumSeries, maximumSeries):
+
+def getMeans(minimumSeries, maximumSeries):
     meanSeries = []
-    for i in range (minimumSeries.size):
-        meanSeries.append((minimumSeries.iloc[i]+maximumSeries.iloc[i]) / 2)
+    for i in range(minimumSeries.size):
+        meanSeries.append((minimumSeries.iloc[i] + maximumSeries.iloc[i]) / 2)
     meanSeries = pd.Series(meanSeries)
     return (meanSeries)
 
@@ -130,40 +133,20 @@ def plotRegression(X, Y):
 def main():
     filepath = input("Where is the folder of the file you want to use?\n")
     data = readCSV(filepath)
-    year = input("What is the year you want to see?\n")
-    yearRange = chooseFrame(data, year)
+    yearRange = chooseFrame(data)
     fixedFrame = data[data['Date'].isin(yearRange)]
     minimumSeries = fixedFrame['Low']
     maximumSeries = fixedFrame['High']
     dailySeries = fixedFrame['Close']
     dateSeries = fixedFrame['Date']
-    meanSeries = getmeans(minimumSeries,maximumSeries)
-    visualizeYear(minimumSeries, maximumSeries, dailySeries, dateSeries,meanSeries)
+    meanSeries = getMeans(minimumSeries, maximumSeries)
+    visualizeYear(minimumSeries, maximumSeries, dailySeries, dateSeries, meanSeries)
     print("Feature 2")
     plotBox(fixedFrame['Close'])
     print("Feature 3")
     plotRegression(fixedFrame['Open'], fixedFrame['Close'])
 
 
-def test():
-    filepath = input("Where is the folder of the file you want to use?\n")
-    years = ["2015", "2016", "2017", "2018", "2019", "2020"]
-    companies = ["apple", "amazon", "google"]
-    for company in companies:
-        data = readCSV(filepath)
-        for year in years:
-            yearRange = chooseFrame(data, year)
-            fixedFrame = data[data['Date'].isin(yearRange)]
-            print("Company is", company, "and the year is", year)
-            print("Feature 2")
-            plotBox(fixedFrame['Close'])
-            print("Feature 3")
-            plotRegression(fixedFrame['Open'], fixedFrame['Close'])
-
-
 isTest = False
 if __name__ == '__main__':
-    if isTest:
-        test()
-    else:
-        main()
+    main()
